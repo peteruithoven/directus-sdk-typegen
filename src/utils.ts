@@ -1,11 +1,13 @@
 import { isSEOField, seoTypeName } from './extensions/seo-plugin';
 
-export const interfacesWithChoices = [
-	'select-dropdown',
+export const interfacesWithSingleSelect = ['select-dropdown', 'select-radio'];
+export const interfacesWithMultiSelect = [
 	'select-multiple',
 	'select-multiple-dropdown',
-	'select-radio',
+	'select-multiple-checkbox',
 ];
+
+export const interfacesWithChoices = [...interfacesWithSingleSelect, ...interfacesWithMultiSelect];
 
 export function pascalCase(value: string): string {
 	return value
@@ -121,7 +123,7 @@ export function determineFieldType(field: any): string {
 
 		const unionOfChoices = uniqueChoices.join(' | ');
 
-		if (['select-multiple', 'select-multiple-dropdown'].includes(field.meta.interface)) {
+		if (interfacesWithMultiSelect.includes(field.meta.interface)) {
 			return `Array<${unionOfChoices}>`;
 		}
 
